@@ -3,20 +3,26 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use Illuminate\Http\Response;
 
 class ItemController extends Controller
 {
+    public function __construct() {
+        $this->middleware("auth");
+    }
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return Builder[]|Collection|Response
      */
     public function index()
     {
-        return Item::orderBy("created_at", "DESC")->get();
+        $items = Item::with("todo")->get();
+        return $items;
     }
 
     /**
