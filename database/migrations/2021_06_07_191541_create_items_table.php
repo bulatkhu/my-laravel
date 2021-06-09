@@ -18,6 +18,8 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->boolean('completed')->default(false);
             $table->timestamp('completed_at')->nullable();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

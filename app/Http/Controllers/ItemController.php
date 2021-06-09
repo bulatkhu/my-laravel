@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,8 +22,8 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::with("todo")->get();
-        return $items;
+        $userId = auth()->user()->id;
+        return Item::where("user_id", $userId)->get();
     }
 
     /**
@@ -37,13 +38,19 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param Request $request
-     * @return Response
+     * @return Item
      */
-    public function store(Request $request)
+    public function store(Request $request): Item
     {
+        $userId = auth()->user()->getAuthIdentifier();
+        $user = User::find($userId);
+
         $newItem = new Item;
         $newItem->name = $request->item["name"];
+        $newItem->user_id = $user->id;
         $newItem->save();
+
+        $user->items()->save($newItem);
 
         return $newItem;
     }

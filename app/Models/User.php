@@ -12,6 +12,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
+    protected $table = "users";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -44,7 +46,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function items(): HasMany
     {
-        return $this->hasMany(Item::class, "user_id", "id");
+        return $this->hasMany(Item::class);
     }
 
     /**
