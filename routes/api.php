@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,15 +18,34 @@ use App\Http\Controllers\SteamAuthController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    dd("user");
+//    return $request->user();
+//});
 
 Route::group(["prefix" => "/auth", "namespace" => "Auth"], function () {
     Route::group(["prefix" => "/steam"], function () {
         Route::get('/', [SteamAuthController::class, 'redirectToSteam']);
         Route::get('/handle', [SteamAuthController::class, 'handle']);
+        Route::get('/user', [SteamAuthController::class, "userData"]);
     });
+});
+
+Route::group([
+//    'middleware' => 'auth:api',
+    'prefix' => 'user'
+], function () {
+    Route::get('/get', [SteamAuthController::class, "userData"])->middleware("jwt.verify");
+//    Route::post('/login', [AuthController::class, 'login']);
+//    Route::post('/register', [AuthController::class, 'register']);
+//    Route::post('/logout', [AuthController::class, 'logout']);
+//    Route::post('/refresh', [AuthController::class, 'refresh']);
+//    Route::get('/user', [AuthController::class, 'userProfile']);
+});
+
+Route::group(['prefix' => 'chat'], function () {
+    Route::post('/send', [ChatController::class, "store"])->middleware('jwt.verify');
+    Route::get('/get', [ChatController::class, "index"]);
 });
 
 Route::group([
@@ -40,14 +60,14 @@ Route::group([
 });
 
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth'
-], function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/user', [AuthController::class, 'userProfile']);
-});
+//Route::group([
+//    'middleware' => 'api',
+//    'prefix' => 'auth'
+//], function () {
+//    Route::post('/login', [AuthController::class, 'login']);
+//    Route::post('/register', [AuthController::class, 'register']);
+//    Route::post('/logout', [AuthController::class, 'logout']);
+//    Route::post('/refresh', [AuthController::class, 'refresh']);
+//    Route::get('/user', [AuthController::class, 'userProfile']);
+//});
 

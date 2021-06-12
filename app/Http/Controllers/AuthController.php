@@ -108,6 +108,8 @@ class AuthController extends Controller
     public function userProfile(): JsonResponse
     {
         try {
+            dd("user data");
+
             $user = auth()->userOrFail();
             return response()->json($user);
         } catch (UserNotDefinedException $e) {

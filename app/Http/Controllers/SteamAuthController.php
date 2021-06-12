@@ -9,6 +9,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Invisnik\LaravelSteamAuth\SteamAuth;
 use JWTAuth;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class SteamAuthController extends Controller
 {
@@ -68,6 +71,10 @@ class SteamAuthController extends Controller
         }
     }
 
+    public function userData(Request $r) {
+        return $r->get("user")[0];
+    }
+
     /**
      * Getting user by info or created if not exists
      *
@@ -92,8 +99,7 @@ class SteamAuthController extends Controller
                 'steamid' => $info->steamID64
             ]);
 
-            $token = JWTAuth::fromUser($user);
-            return $token;
+            return JWTAuth::fromUser($user);
         }
     }
 
