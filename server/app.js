@@ -3,7 +3,10 @@ const axios = require("axios");
 const cors = require("cors");
 const server = require("http").createServer(app);
 const Redis = require("redis");
-const RedisClient = Redis.createClient();
+const RedisClient = Redis.createClient({
+    port: 6379,
+    host: "127.0.0.1"
+});
 const io = require("socket.io")(server, {
     allowEIO3: true ,
     cors: {
@@ -12,6 +15,7 @@ const io = require("socket.io")(server, {
         credentials: true
     }
 });
+
 
 const PORT = process.env.PORT || 8081;
 app.use(cors());
@@ -24,13 +28,17 @@ server.listen(PORT, () => {
 
 axios.defaults.baseURL = restApiDomain + "api/bot";
 
-
 RedisClient.subscribe("newMessage");
 RedisClient.subscribe("loadChat");
 RedisClient.subscribe("newFake");
 
+RedisClient.on("connect", () => {
+    console.log("redis client connected");
+})
+
 RedisClient.on("message", async (channel, message) => {
     console.log("channel", channel);
+    io.sockets.emit(channel, JSON.parse(message));
     console.log("message", message);
 })
 
@@ -38,6 +46,11 @@ io.on("connection", (socket) => {
     const updateOnline = () => {
         io.sockets.emit("online", io.engine.clientsCount);
     };
+
+    socket.on("message", (data) => {
+        io.sockets.emit("message", data);
+        console.log("data", data)
+    })
 
     socket.on("disconnect", () => {
         updateOnline();
@@ -47,11 +60,7 @@ io.on("connection", (socket) => {
 });
 
 setInterval(() => {
-
-    io.sockets.emit("message", {
-        message: "hello from server"
-    });
-
+    io.sockets.emit("message", "hello from server");
 }, 3000)
 
 
@@ -97,6 +106,6 @@ setInterval(() => {
 //     console.log('Server Started. Listening on *:' + PORT);
 // });
 //
-// RedisClient.on("error", (err) => {
-//     console.log("redis client error", err);
-// })
+RedisClient.on("error", (err) => {
+    console.log("redis client error", err);
+})

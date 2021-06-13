@@ -1,5 +1,7 @@
 <template>
     <div>
+        <Login></Login>
+
         <h2>Dashboard</h2>
 
         <Chat></Chat>
@@ -8,29 +10,35 @@
 
 <script>
 import Chat from './Chat';
+import Login from '../Login'
+import store from '../../../store'
 
 export default {
     components: {
-        Chat
+        Chat,
+        Login
     },
     mounted() {
-        this.fetchUser();
+        store.dispatch("fetchUser");
     },
     methods: {
-        async fetchUser() {
-            const token = localStorage.getItem("Bearer");
-            if (!token) return;
-            try {
-                const { data } = this.axios.get('/api/user/get', {
-                     headers: {
-                         Authorization: 'Bearer ' + localStorage.getItem("Bearer")
-                     }
-                });
-                console.log("data", data);
-            } catch (e) {
-                console.log("error", e);
-            }
-        }
+        // ...mapMutations("user/" + SET_USER_DATA, {
+        //     fetchUser: [SET_USER_DATA],
+        // })
+        // async fetchUser() {
+        //     const token = localStorage.getItem("Bearer");
+        //     if (!token) return;
+        //     try {
+        //         const { data } = await this.axios.get('/api/user/get', {
+        //              headers: {
+        //                  Authorization: 'Bearer ' + token
+        //              }
+        //         });
+        //         console.log("user", data);
+        //     } catch (e) {
+        //         console.log("error", e);
+        //     }
+        // }
     }
 }
 </script>
