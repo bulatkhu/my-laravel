@@ -30,13 +30,6 @@ export default {
             return store.state.user;
         }
     },
-    watch: {
-        user: (newUser, oldUser) => {
-            console.log("oldUser", oldUser)
-            console.log("newUser", newUser)
-
-        }
-    }
 }
 </script>
 

@@ -15,11 +15,15 @@ const { protocol, hostname } = window.location;
 const connectionUri = `${protocol}//${hostname}:${8081}`;
 const socket = SocketIO(connectionUri);
 
+axios.interceptors.request.use(config => {
+    config.headers.Authorization = "Bearer " + localStorage.getItem("Bearer");
+    return config;
+});
+
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 Vue.use(VueSocketIOExt, socket);
-
 
 new Vue({
     router,

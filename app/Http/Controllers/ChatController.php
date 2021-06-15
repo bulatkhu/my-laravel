@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
-use App\Models\ChatMessage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -19,7 +18,7 @@ class ChatController extends Controller
         $newMessages = [];
 
         foreach ($redisChat as $key => $newMessage[$i]) {
-            if ($i > 20) { break; }
+            if ($i > 9) { break; }
             array_push($newMessages, json_decode($redisChat[$key]));
             $i++;
         }
@@ -43,8 +42,9 @@ class ChatController extends Controller
 //        $chatMessage->message = $request->message;
 //        $chatMessage->user = $request->get("user");
 
+        Redis::publish('newMessage', json_encode($chatMessage));
         Redis::rpush("chat", json_encode($chatMessage));
-        Redis::publish("newMessage", json_encode($chatMessage));
 
+        return response("", 200);
     }
 }

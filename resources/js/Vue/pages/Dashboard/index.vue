@@ -1,10 +1,10 @@
 <template>
     <div>
-        <Login></Login>
+        <Login />
 
         <h2>Dashboard</h2>
 
-        <Chat></Chat>
+        <Chat />
     </div>
 </template>
 

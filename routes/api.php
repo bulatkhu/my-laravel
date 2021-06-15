@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SteamAuthController;
+use Illuminate\Support\Facades\Redis;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,11 @@ use App\Http\Controllers\SteamAuthController;
 //    dd("user");
 //    return $request->user();
 //});
+
+Route::get("/publish", function () {
+    Redis::publish("newMessage", json_encode(["cache" => "clean"]));
+    return "Done";
+});
 
 Route::group(["prefix" => "/auth", "namespace" => "Auth"], function () {
     Route::group(["prefix" => "/steam"], function () {

@@ -1,6 +1,6 @@
 <template>
     <div class="chat-container">
-        <div class="chat-block">
+        <div ref="chatBlock" class="chat-block">
             <div v-for="(msg, id) in messages" :key="msg.id">
 
                 <div class="chat__image">
@@ -11,8 +11,9 @@
 
         </div>
 
-        <input v-model="chatMessage" type="text">
-        <button @click="sendMessage()">Add message</button>
+        <div class="chat-tools"><input name="message" v-model="chatMessage" type="text">
+            <button @click="sendMessage()">Add message</button>
+        </div>
     </div>
 </template>
 
@@ -25,22 +26,17 @@ export default {
         };
     },
     async mounted() {
-        this.getMessages();
+        await this.getMessages();
+        this.scrollControl();
     },
     methods: {
         async sendMessage() {
-            const token = localStorage.getItem("Bearer");
-
-            if (!chatMessage) return;
-
+            if (!this.chatMessage) return;
             try {
                 await this.axios.post(`/api/chat/send`, {
                     message: this.chatMessage
-                }, {
-                    headers: {
-                        Authorization: 'Bearer ' + token
-                    }
                 })
+                this.chatMessage = "";
             } catch (e) {
                 console.log("error", e);
             }
@@ -53,6 +49,19 @@ export default {
             } catch (e) {
                 console.log("error", e);
             }
+        },
+        scrollControl() {
+            setTimeout(() => {
+                const { chatBlock } = this.$refs;
+                chatBlock.scrollTop = chatBlock.scrollHeight -
+                    chatBlock.clientHeight
+            }, 100)
+        },
+    },
+    sockets: {
+        newMessage(value) {
+            this.messages = [...this.messages, value];
+            this.scrollControl();
         }
     }
 }
@@ -65,9 +74,11 @@ export default {
     background: #ccc;
 }
 
+.chat-tools {}
+
 .chat-block {
-    max-height: 100vh;
-    /*height: 100px;*/
+    max-height: 330px;
+    overflow: auto;
 }
 
 .chat__image {
