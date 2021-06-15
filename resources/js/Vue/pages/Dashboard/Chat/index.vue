@@ -67,18 +67,28 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/_variables";
+
 .chat-container {
     width: 500px;
     max-width: 100%;
-    background: #ccc;
+    min-height: 100%;
+    background: $secondary-blue;
+    padding: 10px 20px;
+    border-radius: 20px 10px 10px 0;
+
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
 }
 
 .chat-tools {}
 
 .chat-block {
-    max-height: 330px;
+    //max-height: 330px;
     overflow: auto;
+    height: 90%;
 }
 
 .chat__image {

@@ -3,6 +3,7 @@ import App from '../Vue/App'
 import Login from '../Vue/pages/Login'
 import AuthCallback from '../Vue/pages/AuthCallback'
 import Dashboard from '../Vue/pages/Dashboard'
+import Double from '../Vue/pages/Dashboard/Double'
 
 const Schema = new VueRouter({
     mode: 'history',
@@ -15,6 +16,13 @@ const Schema = new VueRouter({
                 {
                     path: "/",
                     component: Dashboard,
+                    children: [
+                        {
+                            path: "/double",
+                            component: Double,
+                            meta: { roles: [], private: false },
+                        }
+                    ]
                 },
                 {
                     path: "/auth",

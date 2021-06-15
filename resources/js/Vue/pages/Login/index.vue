@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
-        <div v-if="user">
-            <div class="login-avatar">
+        <div v-if="user" class="login-info">
+            <div class="login-info__avatar">
                 <img :src="user.avatar" alt="avatar">
             </div>
             <span>name {{user.username}}</span>
@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .login-container {
     display: flex;
@@ -41,6 +41,16 @@ export default {
     justify-content: space-between;
     /*flex: 1;*/
     /*min-height: 100vh;*/
+}
+
+.login-avatar {
+    height: 40px;
+    width: 40px;
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 </style>

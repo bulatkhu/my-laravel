@@ -20,6 +20,15 @@ axios.interceptors.request.use(config => {
     return config;
 });
 
+window.Vue = Vue;
+Vue.mixin({
+    methods: {
+        asset(path) {
+            const base_path = window._asset || '';
+            return base_path + path;
+        }
+    }
+});
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);

@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -10,10 +11,34 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+
 mix
     .disableNotifications()
     .disableSuccessNotifications()
     .js('resources/js/app.js', 'public/js')
+    .webpackConfig({
+        module: {
+            rules: [
+                {
+                    test: /(\.(png|jpe?g|gif|webp)$|^((?!font).)*\.svg$)/,
+                    loaders: {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext]?[hash]',
+                            context: 'resources/assets',
+                        }
+                    },
+                }
+            ]
+        },
+        resolve: {
+            alias: {
+                '@': path.resolve('resources/assets/sass'),
+            }
+        },
+    })
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .copy('resources/assets/images', 'public/images')
     .vue()
     // .postCss('resources/css/app.css', 'public/css', [
     //

@@ -63,10 +63,31 @@ io.on("connection", (socket) => {
     updateOnline();
 });
 
+const randomInteger = (min, max) => {
+    const rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
+}
 
 
+const doubleTimeout = 7000;
+
+const startDoubleGame = () => {
+    const startDate = Date.now();
+    io.sockets.emit("startDouble", { startDate: new Date(startDate) })
+    const winner = randomInteger(1, 30);
+
+    setTimeout(() => {
+        const rollingAt = Date.now();
+        const endAt = new Date(rollingAt + 5000);
+        io.sockets.emit("endDouble", { winner, rollingAt: new Date(rollingAt), endAt })
+    }, doubleTimeout)
+}
 
 
+startDoubleGame();
+setInterval(() => {
+    startDoubleGame();
+}, (doubleTimeout * 2) + 5000)
 
 
 
