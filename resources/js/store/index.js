@@ -44,6 +44,7 @@ const store = new Vuex.Store({
                 });
                 commit(SET_USER_DATA, data);
             } catch (e) {
+                /* TODO delete auth token */
                 console.log("error", e);
             }
         },
