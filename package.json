@@ -32,6 +32,7 @@
     },
     "dependencies": {
         "concurrently": "^6.2.0",
+        "dotenv": "^8.6.0",
         "redis-server": "^1.2.2",
         "socket.io-client": "^2.4.0",
         "vue": "^2.6.14",

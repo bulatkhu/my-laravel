@@ -1,8 +1,4 @@
-const redisConfig = {
-    port: 6379,
-    host: "127.0.0.1",
-}
-
+const { url, apiPort, serverPort, redisConfig } = require("./config");
 const app = require("express")();
 const axios = require("axios");
 const cors = require("cors");
@@ -23,13 +19,12 @@ RedisClient.on('error', err => {
     console.log('Error ' + err);
 });
 
-const PORT = process.env.PORT || 8081;
 app.use(cors());
 
-const restApiDomain = process.argv.slice(2)[0] || "http://127.0.0.1:8000";
+const restApiDomain = `http://${url}:${apiPort}`;
 
-server.listen(PORT, () => {
-    console.log("server is started on port", PORT, "and url", restApiDomain);
+server.listen(serverPort, () => {
+    console.log("server is started on port", serverPort, "and url", restApiDomain);
 });
 
 axios.defaults.baseURL = restApiDomain + "/api/bot";
