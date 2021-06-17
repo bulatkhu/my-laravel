@@ -16,10 +16,12 @@ export const USER_LOGOUT = "USER_LOGOUT";
 const mutations = {
     [SET_USER_DATA]: (state, payload) => {
         state.user = payload;
+        state.authorized = true;
         return state;
     },
     [USER_LOGOUT]: (state) => {
         state.user = null;
+        state.authorized = false;
         localStorage.removeItem("Bearer");
     }
 };
@@ -27,6 +29,7 @@ const mutations = {
 
 const store = new Vuex.Store({
     state: {
+        authorized: false,
         user: null,
     },
     actions: {

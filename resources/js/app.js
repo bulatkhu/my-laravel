@@ -1,5 +1,6 @@
 require('./bootstrap');
 import Vue from 'vue';
+import VueNotifications from 'vue-notification'
 import VueRouter from 'vue-router';
 import App from './Vue/App.vue';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import VueAxios from 'vue-axios';
 import Vuex from 'vuex';
 import SocketIO from 'socket.io-client'
 import VueSocketIOExt from 'vue-socket.io-extended';
+import store from './store'
 import router from './router/Schema';
 
 const { protocol, hostname } = window.location;
@@ -33,9 +35,11 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 Vue.use(VueSocketIOExt, socket);
+Vue.use(VueNotifications);
 
 new Vue({
     router,
+    store,
     el: "#app",
     components: { App },
 });

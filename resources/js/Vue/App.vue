@@ -1,5 +1,8 @@
 <template>
-    <router-view />
+    <div class="root">
+        <notifications />
+        <router-view />
+    </div>
 </template>
 
 <script>
@@ -26,7 +29,7 @@ export default {
         height: 5px;
     }
     &::-webkit-scrollbar-thumb {
-        border: 0px none #fff;
+        border: 0 none #fff;
         background: #a7aec4;
         border-radius: 6px;
     }
