@@ -28,7 +28,13 @@ mix
                             context: 'resources/assets',
                         }
                     },
-                }
+                },
+                {
+                    enforce: 'pre',
+                    exclude: /node_modules/,
+                    loader: 'eslint-loader',
+                    test: /\.(js|vue)?$/
+                },
             ]
         },
         resolve: {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\RouletteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SteamAuthController;
@@ -34,6 +35,13 @@ Route::group(["prefix" => "/auth", "namespace" => "Auth"], function () {
         Route::get('/', [SteamAuthController::class, 'redirectToSteam']);
         Route::get('/handle', [SteamAuthController::class, 'handle']);
         Route::get('/user', [SteamAuthController::class, "userData"]);
+    });
+});
+
+Route::group(["prefix" => "/bot"], function() {
+    Route::group(["prefix" => "/roulette"], function() {
+        Route::get("/state", [RouletteController::class, "getBets"]);
+        Route::post("/store", [RouletteController::class, "createBet"]);
     });
 });
 

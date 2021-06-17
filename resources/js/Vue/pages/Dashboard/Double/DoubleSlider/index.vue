@@ -2,97 +2,17 @@
     <div class="double-slide">
         <div class="double-slide__inner">
             <ul
-                :style="{ transitionDuration: transitionDuration + 'ms', transform:
-                `translateX(calc(-50% + ${(winner * 50) - 25}px))` }"
+                :style="{
+                    transitionDuration: transitionDuration + 'ms',
+                    transform: `translate3d(-${winner - 25}px, 0px, 0px)`
+                }"
                 class="double-slide__list">
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" /><DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" /><DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="blue" />
-                <DoubleItem color="green" />
-                <DoubleItem color="gold" />
+                <DoubleItem
+                    v-for="({ color, index }, key) in colors"
+                    :color="color"
+                    :key="key"
+                    :index="index"
+                />
             </ul>
         </div>
     </div>
@@ -101,10 +21,40 @@
 <script>
 import DoubleItem from './DoubleItem'
 
-// const randomInteger = (min, max) => {
-//     const rand = min + Math.random() * (max + 1 - min);
-//     return Math.floor(rand);
-// }
+const randomInteger = (min, max) => {
+    const rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
+}
+
+const colors = [
+    { color: 'blue', index: 1 },
+    { color: 'green', index: 2 },
+    { color: 'blue', index: 3 },
+    { color: 'green', index:4  },
+    { color: 'blue', index: 5 },
+    { color: 'green', index: 6 },
+    { color: 'blue', index: 7 },
+    { color: 'green', index: 8 },
+    { color: 'blue', index: 9 },
+    { color: 'green', index: 10 },
+    { color: 'blue', index: 11 },
+    { color: 'green', index: 12 },
+    { color: 'blue', index: 13 },
+    { color: 'green', index: 14 },
+    { color: 'gold', index: 15 }
+]
+
+const multipleColors = []
+
+const cloneCounter = 10
+for (let i = 0; i < cloneCounter; i++) {
+    multipleColors.push(...colors);
+}
+
+const betWidth = 50
+
+const singleColorOffset = colors.length * betWidth;
+const allColorsOffset = multipleColors.length * betWidth;
 
 export default {
     components: {DoubleItem},
@@ -112,29 +62,23 @@ export default {
         return {
             winner: 0,
             transitionDuration: 5000,
+            colors: multipleColors,
+            lastOffset: 0,
         }
     },
     sockets: {
-        startDouble(data) {
+        startDouble() {
             this.transitionDuration = 0
-            this.winner = 0
-            console.log("startDouble data", data);
+            this.winner = this.lastOffset
+            // console.log("startDouble data", data);
         },
-        endDouble({ winner, rollingAt, endAt }){
-            console.log("double data", winner, Date.parse(endAt)  - Date.parse(rollingAt));
+        endDouble({ winner, rollingAt, endAt, }){
+            const offset = winner.index * betWidth
             this.transitionDuration = Date.parse(endAt)  - Date.parse(rollingAt)
-            this.winner = winner;
-            console.log("");
+            this.winner = offset + allColorsOffset - (singleColorOffset * 2);
+            this.lastOffset = singleColorOffset + offset
         }
-    }
-    // mounted() {
-        // setInterval(() => {
-        //     const date = Date.now();
-        //     const winner = randomInteger(1, 30);
-        //     console.log("winner", winner);
-        //     console.log("date", date);
-        // }, 1000)
-    // }
+    },
 }
 </script>
 
@@ -147,6 +91,7 @@ export default {
     background-color: $main-blue;
     max-width: 100%;
     position: relative;
+    margin-bottom: 20px;
 
     display: flex;
 
@@ -175,7 +120,8 @@ export default {
         align-items: center;
         position: absolute;
         left: 50%;
-        transform: translateX(-50%);
+        //transform: translateX(-50%);
+        transition-timing-function: cubic-bezier(0.12, 0.8, 0.38, 1);
     }
 }
 

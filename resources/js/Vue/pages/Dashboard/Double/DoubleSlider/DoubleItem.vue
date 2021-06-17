@@ -1,5 +1,6 @@
 <template>
     <li :class="['double-item', this.color].join(' ')">
+        {{index}}
 <!--        <img :src="betIcon" alt="">-->
     </li>
 </template>
@@ -13,6 +14,7 @@
 export default {
     props: {
         color: String,
+        index: Number,
     },
     data() {
         let betIcon = this.asset("/images/betBlue.svg")
@@ -39,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "resources/assets/sass/_variables";
+@import 'resources/assets/sass/_variables';
 
 .double-item {
     height: 40px;
@@ -49,17 +51,23 @@ export default {
     border-radius: 5px;
     margin: 0 5px;
 
+    padding: 2px 5px;
+
+    //display: flex;
+    //align-items: center;
+    //justify-content: center;
+
     img {
         width: 100%;
         height: 100%;
     }
 
     &.blue {
-        background-color: #6871E8;
+        background-color: $coin-main-blue;
     }
 
     &.green {
-        background-color: #49B567;
+        background-color: $main-green;
     }
 
     &.gold {

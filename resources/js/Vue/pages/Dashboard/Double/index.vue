@@ -4,15 +4,21 @@
 
             <DoubleSlider />
 
+            <DoubleHistory />
+        </div>
+
+        <div class="double-history">
+
         </div>
     </div>
 </template>
 
 <script>
 import DoubleSlider from './DoubleSlider';
+import DoubleHistory from './DoubleHistory';
 
 export default {
-    components: {DoubleSlider}
+    components: {DoubleSlider, DoubleHistory}
 }
 </script>
 
@@ -24,7 +30,10 @@ export default {
 .double-head {
     background-color: $secondary-blue;
     padding: 20px 20px 10px;
+    position: relative;
     border-radius: 10px;
+
+    margin-bottom: 20px;
 }
 
 </style>

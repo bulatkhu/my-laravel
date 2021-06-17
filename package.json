@@ -10,10 +10,14 @@
         "production": "mix --production",
         "start": "concurrently  \"php artisan serve\" \"npm run hot\" \"npm run start-server\"",
         "start-server": "cd server && npm run start",
-        "optimize": "php artisan optimize"
+        "optimize": "php artisan optimize",
+        "eslint": "./node_modules/.bin/eslint resources/assets/js/ test/ --ext .js,.vue"
     },
     "devDependencies": {
         "axios": "^0.21.1",
+        "eslint": "^7.28.0",
+        "eslint-loader": "^4.0.2",
+        "eslint-plugin-vue": "^7.11.1",
         "file-loader": "^6.2.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
