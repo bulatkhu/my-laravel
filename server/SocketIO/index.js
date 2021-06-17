@@ -1,4 +1,6 @@
 const SocketIO = require("socket.io");
+const server = require("../server");
+
 const SocketConfig = {
     allowEIO3: true ,
     cors: {
@@ -9,8 +11,7 @@ const SocketConfig = {
 }
 
 class SocketIoContainer {
-
-    constructor(server) {
+    constructor() {
         this.io = SocketIO(server, SocketConfig);
         this.io.on("connection", this.onConnection.bind(this))
     }
@@ -27,12 +28,8 @@ class SocketIoContainer {
 
         socket.on("message", (data) => {
             this.io.sockets.emit("message", data);
-            console.log("data", data)
+            console.log("data", data);
         });
-
-        socket.on("newDoubleBet", (data) => {
-            console.log("new bet", data)
-        })
 
         socket.on("disconnect", () => {
             this.updateOnline();
@@ -43,4 +40,4 @@ class SocketIoContainer {
 
 }
 
-module.exports = (server) => new SocketIoContainer(server);
+module.exports = new SocketIoContainer();

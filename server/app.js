@@ -3,8 +3,7 @@ const { url, apiPort, serverPort } = require("./config");
 axios.defaults.baseURL = `http://${url}:${apiPort}/api/bot`;
 
 const server = require("./server");
-const { io } = require("./SocketIO")(server);
-
+const { io } = require("./SocketIO");
 const RedisController = require("./Controllers/RedisController");
 const DoubleController = require("./Controllers/DoubleController");
 

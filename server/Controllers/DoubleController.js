@@ -13,8 +13,9 @@ class DoubleController {
         this.gameDuration = this.bettingTime + this.rouletteRollingTime + this.timeout;
 
         this.startDoubleGame = this.startDoubleGame.bind(this);
+        this.io.on("connection", this.onConnection.bind(this));
 
-        setInterval(this.startDoubleGame, this.gameDuration)
+        setInterval(this.startDoubleGame, this.gameDuration);
     }
 
     startDoubleGame() {
@@ -52,6 +53,11 @@ class DoubleController {
         }, this.bettingTime)
     }
 
+    onConnection(socket) {
+        socket.on("newDoubleBet", (data) => {
+            console.log("new double bet", data);
+        });
+    }
 }
 
 module.exports = (io) =>  new DoubleController(io);
