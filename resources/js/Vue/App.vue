@@ -8,6 +8,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'resources/assets/sass/_variables';
 
 * {
     box-sizing: border-box;
@@ -50,12 +51,25 @@ button {
     all: unset;
     display: block;
     cursor: pointer;
+    width: 100%;
+    box-sizing: inherit;
+
+    transition: opacity .1s ease-in-out;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }
 body {
     margin: 0;
     padding: 0;
     color: #fff;
     font-family: Rubik, sans-serif;
+}
+
+.amount {
+    font-weight: bold;
+    color: $secondary-yellow;
 }
 
 

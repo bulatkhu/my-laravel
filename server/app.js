@@ -54,6 +54,10 @@ io.on("connection", (socket) => {
     socket.on("message", (data) => {
         io.sockets.emit("message", data);
         console.log("data", data)
+    });
+
+    socket.on("newDoubleBet", (data) => {
+        console.log("new bet", data)
     })
 
     socket.on("disconnect", () => {
@@ -132,46 +136,8 @@ const startDoubleGame = () => {
 // startDoubleGame();
 setInterval(() => {
     startDoubleGame();
-}, gameDuration)
+}, gameDuration);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const REDIS_PORT = 5000;
-//
-// const app = require("express");
-// const Redis = require("redis");
-// const server = require("http").createServer(app);
-// const RedisClient = Redis.createClient(REDIS_PORT);
-// const io = require("socket.io")(server);
-//
-// const axios = require("axios");
-// const PORT = 8080;
-// const restApiDomain = "http://127.0.0.1:8000";
-// axios.defaults.baseURL = restApiDomain + '/api/bot/';
-//
-// console.log("restApiDomain", restApiDomain);
-//
-//
-// server.listen(PORT, function() {
-//     console.log('Server Started. Listening on *:' + PORT);
-// });
-//
 RedisClient.on("error", (err) => {
     console.log("redis client error", err);
 })

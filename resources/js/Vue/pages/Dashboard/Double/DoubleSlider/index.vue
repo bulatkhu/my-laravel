@@ -21,10 +21,10 @@
 <script>
 import DoubleItem from './DoubleItem'
 
-const randomInteger = (min, max) => {
-    const rand = min + Math.random() * (max + 1 - min);
-    return Math.floor(rand);
-}
+// const randomInteger = (min, max) => {
+//     const rand = min + Math.random() * (max + 1 - min);
+//     return Math.floor(rand);
+// }
 
 const colors = [
     { color: 'blue', index: 1 },

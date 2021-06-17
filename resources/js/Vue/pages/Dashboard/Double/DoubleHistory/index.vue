@@ -14,7 +14,7 @@
             <span v-else-if="gameOver">Game over</span>
             <div  v-else-if="bettingTime && bettingTime > 0" class="history-starting">
                 <span class="history-starting__label">Starts in: </span>
-                <span class="history-starting__timer" >{{ bettingTime / 1000 }}</span>
+                <span class="history-starting__timer amount" >{{ bettingTime / 1000 }}</span>
                 <div class="history-starting__progress">
                     <div :style="{width: (bettingTime / 100) + '%'}" />
                 </div>
@@ -22,16 +22,14 @@
             <span v-else>Waiting</span>
         </div>
         <div class="history__col">
-            <div v-for="({ winnerColor, id }) in lastTenBets" :key="id" :class="['winnerBlock', winnerColor]" />
+            <div v-for="({ winnerColor }, index) in lastTenBets" :key="index" :class="['winnerBlock', winnerColor]" />
         </div>
     </div>
 </template>
 
 <script>
-import CountDown from './CountDown';
 
 export default {
-    components: {CountDown},
     data() {
         return {
             lastBets: [],
@@ -44,7 +42,7 @@ export default {
         }
     },
     mounted() {
-        this.getRouletteHistory()
+        this.getRouletteHistory();
     },
     methods: {
         async getRouletteHistory() {
@@ -113,6 +111,7 @@ export default {
     padding: 10px 0;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
 
     &__col {
         display: flex;
@@ -139,7 +138,6 @@ export default {
     text-align: center;
 
     &__timer {
-        color: $main-yellow;
         display: inline-block;
         width: 20px;
         //margin-bottom: 20px;
