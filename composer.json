@@ -51,6 +51,10 @@
         "fix-cs": [
             "prettier src/**/* --write",
             "php-cs-fixer fix"
+        ],
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "chmod -R 777 public/"
         ]
     },
     "extra": {

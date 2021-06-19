@@ -77,6 +77,31 @@ export default {
             this.transitionDuration = Date.parse(endAt)  - Date.parse(rollingAt)
             this.winner = offset + allColorsOffset - (singleColorOffset * 2);
             this.lastOffset = singleColorOffset + offset
+        },
+        getLastDoubleBet(data) {
+            const { rollingAt, startDate, endAt, bettingTime } = data;
+
+            const dateNow = Date.now();
+
+            if (Date.parse(rollingAt) < dateNow) {
+                const distanceTransition = bettingTime - (dateNow - Date.parse(rollingAt));
+                console.log("game is going", distanceTransition);
+            }
+
+                else
+
+            if (Date.parse(startDate) < dateNow && Date.parse(endAt) > dateNow) {
+                console.log("");
+                console.log("betting time", Date.parse(rollingAt) - dateNow);
+                console.log("");
+            }
+
+            console.log("start at", new Date(startDate));
+            console.log("end at", new Date(endAt));
+            console.log("rolling at", new Date(rollingAt), Date.parse(rollingAt));
+            console.log("current date", new Date());
+            console.log("data", data);
+            console.log("");
         }
     },
 }

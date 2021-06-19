@@ -32,6 +32,7 @@ const store = new Vuex.Store({
         authorized: false,
         user: null,
     },
+
     actions: {
         async fetchUser({ commit }) {
             const token = localStorage.getItem("Bearer");
@@ -44,7 +45,7 @@ const store = new Vuex.Store({
                 });
                 commit(SET_USER_DATA, data);
             } catch (e) {
-                /* TODO delete auth token */
+                localStorage.removeItem("Bearer");
                 console.log("error", e);
             }
         },

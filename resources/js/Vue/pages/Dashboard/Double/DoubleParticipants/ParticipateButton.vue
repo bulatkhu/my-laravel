@@ -13,18 +13,18 @@ export default {
     props: ["amount", "type"],
     methods: {
         onBet() {
-            if (!this.$store.state.authorized) {
+            const token = localStorage.getItem("Bearer");
+            if (!this.$store.state.authorized || !token) {
                 this.$notify({ text: message, type: "warn" });
                 return;
+
             }
 
             this.$socket.client.emit("newDoubleBet", {
                 type: this.type,
-                user: this.$store.state.user,
-                amount: 10
+                amount: 10,
+                token
             });
-
-            console.log("type", this.type)
 
         }
     },
