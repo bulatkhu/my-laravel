@@ -8,13 +8,16 @@ import VueAxios from 'vue-axios';
 import Vuex from 'vuex';
 import SocketIO from 'socket.io-client'
 import VueSocketIOExt from 'vue-socket.io-extended';
-import store from './store'
+import store from './store';
 import router from './router/Schema';
 
+console.log("process", process.env.APP_ENV);
 const { protocol, hostname } = window.location;
 // const port = protocol === "https:" ? "8443" : "8081";
 // const connectionUri = `${protocol}//${hostname}:${port}`;
-const connectionUri = `${protocol}//${hostname}:${8081}`;
+const connectionUri = protocol === "http:"
+    ? `${protocol}//${hostname}:${8081}`
+    : `https://evening-fjord-97654.herokuapp.com`;
 const socket = SocketIO(connectionUri);
 
 axios.interceptors.request.use(config => {
