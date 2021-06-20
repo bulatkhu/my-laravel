@@ -18,6 +18,9 @@ const { protocol, hostname } = window.location;
 const connectionUri = protocol === "http:"
     ? `${protocol}//${hostname}:${8081}`
     : `https://evening-fjord-97654.herokuapp.com`;
+
+console.log("connection uri", connectionUri);
+
 const socket = SocketIO(connectionUri);
 
 axios.interceptors.request.use(config => {
