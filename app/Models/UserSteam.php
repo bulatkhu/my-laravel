@@ -33,4 +33,8 @@ class UserSteam extends Model implements JWTSubject
     {
         return [];
     }
+
+    public function rouletteBets() {
+        return $this->hasMany(RouletteBet::class, "user_id");
+    }
 }

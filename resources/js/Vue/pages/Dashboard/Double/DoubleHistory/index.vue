@@ -106,7 +106,7 @@ export default {
                 }, 1000)
             }, timeLeft)
         },
-        getLastDoubleBet(data) {
+        lastDoubleBet(data) {
             const {rollingAt, startDate, endAt} = data;
             const dateNow = Date.now();
 

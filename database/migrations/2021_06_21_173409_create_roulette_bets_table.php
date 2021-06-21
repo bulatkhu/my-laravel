@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoulettesTable extends Migration
+class CreateRouletteBetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateRoulettesTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('roulette');
-        Schema::create('roulette', function (Blueprint $table) {
+        $this->down();
+        Schema::create('roulette_bet', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string("endAt");
-            $table->string("winnerColor");
-            $table->bigInteger("winnerId");
-            $table->string("rollingAt");
-            $table->string("startAt");
+            $table->string('color');
+            $table->bigInteger('value');
+            $table->bigInteger('rouletteRound_id');
+            $table->bigInteger('user_id');
         });
     }
 
@@ -32,6 +31,6 @@ class CreateRoulettesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roulette');
+        Schema::dropIfExists('roulette_bet');
     }
 }

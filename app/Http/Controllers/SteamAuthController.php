@@ -72,7 +72,7 @@ class SteamAuthController extends Controller
     }
 
     public function userData(Request $r) {
-        return $r->get("user")[0];
+        return $r->get("user");
     }
 
     /**

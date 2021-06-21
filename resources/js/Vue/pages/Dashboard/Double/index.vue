@@ -25,6 +25,17 @@ export default {
         DoubleHistory,
         DoubleStatistic,
         DoubleParticipants
+    },
+    sockets: {
+        newBetError(error) {
+            console.log("error", error);
+        },
+        newBetSuccess(data) {
+            console.log("bet data", data);
+        }
+    },
+    mounted() {
+        this.$socket.client.emit("getLastDoubleBet");
     }
 }
 </script>

@@ -25,11 +25,6 @@ use Illuminate\Support\Facades\Redis;
 //    return $request->user();
 //});
 
-Route::get("/publish", function () {
-    Redis::publish("newMessage", json_encode(["cache" => "clean"]));
-    return "Done";
-});
-
 Route::group(["prefix" => "/auth", "namespace" => "Auth"], function () {
     Route::group(["prefix" => "/steam"], function () {
         Route::get('/', [SteamAuthController::class, 'redirectToSteam']);
@@ -42,6 +37,7 @@ Route::group(["prefix" => "/bot"], function() {
     Route::group(["prefix" => "/roulette"], function() {
         Route::get("/state", [RouletteController::class, "getBets"]);
         Route::post("/store", [RouletteController::class, "createBet"]);
+        Route::post("/newBet", [RouletteController::class, "newBet"])->middleware("jwt.verify");;
     });
 });
 

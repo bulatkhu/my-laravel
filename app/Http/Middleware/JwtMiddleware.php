@@ -26,7 +26,7 @@ class JwtMiddleware
         try {
             JWTAuth::parseToken()->authenticate();
             $userId = JWTAuth::parseToken()->getPayload()["sub"];
-            $user = UserSteam::where("id", $userId)->get();
+            $user = UserSteam::findOrFail($userId);
             $request->attributes->set("user", $user);
         } catch (Exception $e) {
             if ($e instanceof TokenInvalidException){

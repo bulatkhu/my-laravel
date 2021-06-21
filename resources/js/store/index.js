@@ -38,11 +38,7 @@ const store = new Vuex.Store({
             const token = localStorage.getItem("Bearer");
             if (!token) return;
             try {
-                const { data } = await axios.get('/api/user/get', {
-                    headers: {
-                        Authorization: 'Bearer ' + token
-                    }
-                });
+                const { data } = await axios.get('/api/user/get');
                 commit(SET_USER_DATA, data);
             } catch (e) {
                 localStorage.removeItem("Bearer");

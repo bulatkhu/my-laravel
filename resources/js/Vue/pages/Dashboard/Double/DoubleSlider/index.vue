@@ -77,8 +77,8 @@ export default {
             this.winner = offset + allColorsOffset - (singleColorOffset * 2);
             this.lastOffset = singleColorOffset + offset
         },
-        getLastDoubleBet(data) {
-            const { rollingAt, startDate, endAt, bettingTime, winner, prevWinner } = data;
+        lastDoubleBet(data) {
+            const { rollingAt, startDate, endAt, bettingTime, winner } = data;
 
             const dateNow = Date.now();
 
@@ -88,7 +88,7 @@ export default {
                 this.winner = offset + allColorsOffset - (singleColorOffset * 2);
                 this.lastOffset = singleColorOffset + offset
             } else if (Date.parse(startDate) < dateNow && Date.parse(endAt) > dateNow) {
-                const offset = prevWinner.index * betWidth
+                const offset = (winner?.index || 1) * betWidth
                 this.transitionDuration = 0
                 this.winner = singleColorOffset + offset
             }

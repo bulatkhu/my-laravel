@@ -17,7 +17,6 @@ export default {
             if (!this.$store.state.authorized || !token) {
                 this.$notify({ text: message, type: "warn" });
                 return;
-
             }
 
             this.$socket.client.emit("newDoubleBet", {

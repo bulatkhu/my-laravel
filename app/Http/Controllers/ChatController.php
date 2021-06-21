@@ -33,7 +33,7 @@ class ChatController extends Controller
 
         $chatMessage = [
             "id" => Str::random(16),
-            "user" => $request->get("user")[0],
+            "user" => $request->get("user"),
             "message" => $request->message,
             "time" => Carbon::now()->format("H:i"),
         ];

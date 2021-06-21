@@ -16,7 +16,12 @@ class Roulette extends Model
         'winnerId',
         'winnerColor',
         'rollingAt',
-        'startAt'
+        'startAt',
+        'bets',
     ];
+
+    public function bets() {
+        return $this->hasMany(RouletteBet::class, "rouletteRound_id");
+    }
 
 }
