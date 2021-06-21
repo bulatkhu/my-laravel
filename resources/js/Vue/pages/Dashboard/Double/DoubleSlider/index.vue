@@ -21,11 +21,6 @@
 <script>
 import DoubleItem from './DoubleItem'
 
-// const randomInteger = (min, max) => {
-//     const rand = min + Math.random() * (max + 1 - min);
-//     return Math.floor(rand);
-// }
-
 const colors = [
     { color: 'blue', index: 1 },
     { color: 'green', index: 2 },
@@ -66,11 +61,15 @@ export default {
             lastOffset: 0,
         }
     },
+    computed: {
+        status() {
+            return this.$store.state.double.status
+        },
+    },
     sockets: {
         startDouble() {
             this.transitionDuration = 0
             this.winner = this.lastOffset
-            // console.log("startDouble data", data);
         },
         endDouble({ winner, rollingAt, endAt, }){
             const offset = winner.index * betWidth
@@ -79,29 +78,20 @@ export default {
             this.lastOffset = singleColorOffset + offset
         },
         getLastDoubleBet(data) {
-            const { rollingAt, startDate, endAt, bettingTime } = data;
+            const { rollingAt, startDate, endAt, bettingTime, winner, prevWinner } = data;
 
             const dateNow = Date.now();
 
             if (Date.parse(rollingAt) < dateNow) {
-                const distanceTransition = bettingTime - (dateNow - Date.parse(rollingAt));
-                console.log("game is going", distanceTransition);
+                const offset = winner.index * betWidth
+                this.transitionDuration = bettingTime - (dateNow - Date.parse(rollingAt))
+                this.winner = offset + allColorsOffset - (singleColorOffset * 2);
+                this.lastOffset = singleColorOffset + offset
+            } else if (Date.parse(startDate) < dateNow && Date.parse(endAt) > dateNow) {
+                const offset = prevWinner.index * betWidth
+                this.transitionDuration = 0
+                this.winner = singleColorOffset + offset
             }
-
-                else
-
-            if (Date.parse(startDate) < dateNow && Date.parse(endAt) > dateNow) {
-                console.log("");
-                console.log("betting time", Date.parse(rollingAt) - dateNow);
-                console.log("");
-            }
-
-            console.log("start at", new Date(startDate));
-            console.log("end at", new Date(endAt));
-            console.log("rolling at", new Date(rollingAt), Date.parse(rollingAt));
-            console.log("current date", new Date());
-            console.log("data", data);
-            console.log("");
         }
     },
 }

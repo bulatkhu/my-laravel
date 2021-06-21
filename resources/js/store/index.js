@@ -3,10 +3,10 @@ import Vue from 'vue'
 
 import axios from 'axios'
 // import mainModule from './modules/main'
-import chatModule from './modules/chat'
 // import user from './modules/user'
-// import doubleModule from './modules/double'
 // import inventory from './modules/inventory'
+import chatModule from './modules/chat'
+import doubleModule from './modules/double'
 
 Vue.use(Vuex)
 
@@ -58,7 +58,7 @@ const store = new Vuex.Store({
         // main: mainModule,
         // user,
         chat: chatModule,
-        // double: doubleModule,
+        double: doubleModule,
         // inventory: inventory,
     }
 })

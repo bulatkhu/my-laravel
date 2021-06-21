@@ -14,7 +14,7 @@
             <span v-else-if="gameOver">Game over</span>
             <div  v-else-if="bettingTime && bettingTime > 0" class="history-starting">
                 <span class="history-starting__label">Starts in: </span>
-                <span class="history-starting__timer amount" >{{ bettingTime / 1000 }}</span>
+                <span class="history-starting__timer amount" >{{ (bettingTime / 1000).toFixed(2) }}</span>
                 <div class="history-starting__progress">
                     <div :style="{width: (bettingTime / 100) + '%'}" />
                 </div>
@@ -53,6 +53,13 @@ export default {
                 console.log("e.message", e.message)
             }
         },
+        setBettingTime(time) {
+            clearInterval(this.invervalId);
+            this.bettingTime = time;
+            this.invervalId = setInterval(() => {
+                this.bettingTime = this.bettingTime - 10
+            }, 10)
+        },
     },
     computed: {
         lastTenBets() {
@@ -78,14 +85,13 @@ export default {
     },
     sockets: {
         startDouble(data) {
-            clearInterval(this.invervalId);
-            this.bettingTime = data.bettingTime;
-            this.invervalId = setInterval(() => {
-                this.bettingTime = this.bettingTime - 10
-            }, 10)
+            this.$store.dispatch("double/setStatus", "bettingTime");
+            this.setBettingTime(data.bettingTime)
         },
         endDouble({ data }) {
             const timeLeft = Date.parse(data.endAt) - Date.parse(data.rollingAt);
+            this.$store.dispatch("double/setStatus", "spinning");
+
             this.rolling = true
             this.timeLeft = timeLeft;
             setTimeout(() => {
@@ -99,6 +105,16 @@ export default {
                     this.gameOver = false
                 }, 1000)
             }, timeLeft)
+        },
+        getLastDoubleBet(data) {
+            const {rollingAt, startDate, endAt} = data;
+            const dateNow = Date.now();
+
+            if (Date.parse(startDate) < dateNow && Date.parse(endAt) > dateNow) {
+                /* time to bet */
+                this.$store.dispatch("double/setStatus", "bettingTime");
+                this.setBettingTime(Date.parse(rollingAt) - dateNow)
+            }
         }
     },
 }
