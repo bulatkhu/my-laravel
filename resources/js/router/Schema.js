@@ -1,5 +1,4 @@
 import VueRouter from 'vue-router'
-import App from '../Vue/App'
 import Login from '../Vue/pages/Login'
 import AuthCallback from '../Vue/pages/AuthCallback'
 import Dashboard from '../Vue/pages/Dashboard'
@@ -10,30 +9,23 @@ const Schema = new VueRouter({
     routes: [
         {
             path: "/",
-            component: App,
-            meta: { roles: [], private: false },
+            component: Dashboard,
             children: [
                 {
-                    path: "/",
-                    component: Dashboard,
-                    children: [
-                        {
-                            path: "/double",
-                            component: Double,
-                            meta: { roles: [], private: false },
-                        }
-                    ]
-                },
-                {
-                    path: "/auth",
-                    component: Login,
+                    path: "/double",
+                    component: Double,
                     meta: { roles: [], private: false },
-                },
-                {
-                    path: "/auth/callback",
-                    component: AuthCallback
-                },
+                }
             ]
+        },
+        {
+            path: "/auth",
+            component: Login,
+            meta: { roles: [], private: false },
+        },
+        {
+            path: "/auth/callback",
+            component: AuthCallback
         },
         {
             path: "*",

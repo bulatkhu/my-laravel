@@ -1,24 +1,31 @@
 <template>
     <li>
-        <router-link class="double-col-user" to="/">
+        <router-link class="double-col-user" :to="`/profile/${bet.user.id}`">
             <span class="double-col-user__col">
                 <span class="double-col-user__avatar">
                     <img
-                        src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/46/46de67555b8b66670f1ddd4a6b5c65568bfab29e_full.jpg" alt="user">
+                        :src="bet.user.avatar" alt="user">
                 </span>
-                <span class="double-col-user__name">Lorem ipsum dolor sit.</span>
+                <span class="double-col-user__name">{{ bet.user.username }}</span>
             </span>
-            <span class="double-col-user__col amount">0.21$</span>
+            <span class="double-col-user__col amount">{{ bet.value }}$</span>
         </router-link>
     </li>
 </template>
 
 <script>
 export default {
-
+    props: {
+        bet: {
+            user: {
+                id: Number,
+                avatar: String,
+                username: String
+            },
+            value: Number
+        }
+    }
 }
-
-// https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/46/46de67555b8b66670f1ddd4a6b5c65568bfab29e_full.jpg
 
 </script>
 

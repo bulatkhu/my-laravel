@@ -20,6 +20,20 @@ import DoubleStatistic from './DoubleStatistic';
 import DoubleParticipants from './DoubleParticipants';
 
 export default {
+    data() {
+        return {
+            bets: [],
+        }
+    },
+    computed: {
+        groupedBets() {
+            return {
+                green: this.bets.filter(bet => bet.color === "green"),
+                blue: this.bets.filter(bet => bet.color === "blue"),
+                gold: this.bets.filter(bet => bet.color === "gold"),
+            }
+        },
+    },
     components: {
         DoubleSlider,
         DoubleHistory,
@@ -27,12 +41,16 @@ export default {
         DoubleParticipants
     },
     sockets: {
-        newBetError(error) {
-            console.log("error", error);
+        newBetError({ message }) {
+            this.$notify({ type: "info", text: message })
         },
         newBetSuccess(data) {
             console.log("bet data", data);
-        }
+        },
+        newRouletteBet(data) {
+            this.bets = [...this.bets, data];
+            console.log("new bet", data);
+        },
     },
     mounted() {
         this.$socket.client.emit("getLastDoubleBet");
