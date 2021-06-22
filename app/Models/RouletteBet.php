@@ -19,10 +19,10 @@ class RouletteBet extends Model
         'rouletteRound_id',
     ];
 
-    protected $hidden = [
-        'user_id',
-        'rouletteRound_id',
-    ];
+//    protected $hidden = [
+//        'user_id',
+//        'rouletteRound_id',
+//    ];
 
     public function roulette(): BelongsTo
     {

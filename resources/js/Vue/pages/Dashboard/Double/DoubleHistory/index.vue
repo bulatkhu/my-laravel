@@ -160,6 +160,8 @@ export default {
     }
 
     &__progress {
+        overflow: hidden;
+
         width: 33.33%;
         height: 2px;
         position: absolute;

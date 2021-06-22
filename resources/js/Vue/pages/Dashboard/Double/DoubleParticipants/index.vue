@@ -44,13 +44,19 @@ export default {
             }
         },
     },
+    mounted() {
+        this.$socket.client.emit("getRouletteParticipants");
+    },
     sockets: {
         startDouble() {
             this.bets = [];
         },
         newRouletteBet(data) {
-            this.bets = [...this.bets, data];
+            this.bets = [...data];
         },
+        currentParticipants(data) {
+            this.bets = [...data];
+        }
     }
 }
 </script>

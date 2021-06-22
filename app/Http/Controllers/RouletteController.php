@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Roulette;
 use App\Models\RouletteBet;
+use App\Models\UserSteam;
 use Illuminate\Http\Request;
 
 class RouletteController extends Controller
@@ -27,6 +28,19 @@ class RouletteController extends Controller
         return Roulette::latest()->take(100)->get();
     }
 
+    public function getAllCurrentBets() {
+        $rouletteRound = Roulette::latest()->first();
+        $allBets = RouletteBet::where("rouletteRound_id", $rouletteRound->id)->get();
+        $newAllBets = array();
+
+        foreach ($allBets as $bet) {
+            $betWithUser = $this->getBetWithUser($bet->id);
+            array_push($newAllBets, $betWithUser);
+        }
+
+        return $newAllBets;
+    }
+
     public function newBet(Request $request) {
         $user = $request->get("user");
 
@@ -45,6 +59,36 @@ class RouletteController extends Controller
             );
         }
 
+        $candidateUserBet = null;
+        foreach ($rouletteRound->bets as $bet) {
+            if ($bet->user_id === $user->id && $bet->color === $request->color) {
+                $candidateUserBet = $bet;
+            }
+        }
+
+        if ($candidateUserBet) {
+            $updatedBet = RouletteBet::find($candidateUserBet->id);
+            $updatedBet->value = $updatedBet->value + $request->value;
+            $updatedBet->save();
+
+            $allBets = RouletteBet::where("rouletteRound_id", $rouletteRound->id)->get();
+            $newAllBets = array();
+
+            foreach ($allBets as $bet) {
+                $betWithUser = $this->getBetWithUser($bet->id);
+                array_push($newAllBets, $betWithUser);
+            }
+
+            $updatedBet->user = $user;
+            $updatedBet->newItems = $newAllBets;
+
+            return response(
+                $updatedBet,
+                200
+            );
+        }
+
+
         $rouletteBet = RouletteBet::create([
             "color" => $request->color,
             "value" => $request->value,
@@ -53,14 +97,24 @@ class RouletteController extends Controller
         ]);
 
         $rouletteBet->save();
-
         $rouletteBet->user = $user;
-        $rouletteBet->round = $rouletteRound;
 
         return response(
             $rouletteBet,
             200
         );
+    }
+
+    public function getBetWithUser($betId) {
+        $bet = RouletteBet::find($betId);
+
+        if (!is_null($bet)) {
+            $user = UserSteam::find($bet->user_id);
+            $bet->user = $user;
+            return $bet;
+        } else {
+            return null;
+        }
     }
 
 }

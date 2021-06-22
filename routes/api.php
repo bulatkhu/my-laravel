@@ -36,8 +36,9 @@ Route::group(["prefix" => "/auth", "namespace" => "Auth"], function () {
 Route::group(["prefix" => "/bot"], function() {
     Route::group(["prefix" => "/roulette"], function() {
         Route::get("/state", [RouletteController::class, "getBets"]);
+        Route::get("/bets", [RouletteController::class, "getAllCurrentBets"]);
         Route::post("/store", [RouletteController::class, "createBet"]);
-        Route::post("/newBet", [RouletteController::class, "newBet"])->middleware("jwt.verify");;
+        Route::post("/newBet", [RouletteController::class, "newBet"])->middleware("jwt.verify");
     });
 });
 
