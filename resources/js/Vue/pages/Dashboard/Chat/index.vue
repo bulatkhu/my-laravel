@@ -1,17 +1,19 @@
 <template>
     <div class="chat-container">
         <div ref="chatBlock" class="chat-block">
-            <div v-for="(msg, id) in messages" :key="msg.id">
+            <div class="chat-block__message" v-for="(msg) in messages" :key="msg.id">
 
-                <div class="chat__image">
+                <div class="chat-block__img">
                     <img :src="msg.user.avatar" alt="avatar">
                 </div>
-                <span>{{id + 1}})</span> {{ msg.message }}
+                <span> {{ msg.message }} </span>
             </div>
 
         </div>
 
-        <div class="chat-tools"><input name="message" v-model="chatMessage" type="text">
+        <div class="chat-tools"><label>
+            <input name="message" v-model="chatMessage" type="text">
+        </label>
             <button @click="sendMessage()">Add message</button>
         </div>
     </div>
@@ -89,16 +91,26 @@ export default {
     //max-height: 330px;
     overflow: auto;
     height: 90%;
-}
 
-.chat__image {
-    width: 40px;
-    height: 40px;
-}
+    &__message {
+        display: flex;
+        align-items: center;
 
-.chat__image > img {
-    max-width: 100%;
-    max-height: 100%;
+        &:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    }
+
+    &__img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
 }
 
 </style>

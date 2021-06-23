@@ -1,5 +1,5 @@
 <template>
-    <button @click="onBet" :class="['btn-participate', type]">
+    <button :disabled="!isAuth || !bettingTime" @click="onBet" :class="['btn-participate', type]">
         <span class="btn-participate__label">Bet</span>
 
         <span class="btn-participate__amount">{{amount || "0.00"}}</span>
@@ -30,8 +30,16 @@ export default {
     computed: {
         isAuth() {
             return this.$store.state.authorized
+        },
+        bettingTime() {
+            return this.$store.state.double.status === "bettingTime"
         }
-    }
+    },
+    watch: {
+        status(data) {
+            console.log("status", data)
+        }
+    },
 }
 </script>
 
