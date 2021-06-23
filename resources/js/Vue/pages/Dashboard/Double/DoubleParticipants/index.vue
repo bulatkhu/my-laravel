@@ -30,41 +30,34 @@ import ParticipateButton from './ParticipateButton'
 import ParticipantItem from './PariticipantItem'
 export default {
     components: {ParticipantItem, ParticipateButton, ColumnHeader},
-    data() {
-        return {
-            bets: [],
-        }
-    },
+    props: ["bets"],
     computed: {
         groupedBets() {
             return {
-                green: this.bets.filter(bet => bet.color === "green"),
-                blue: this.bets.filter(bet => bet.color === "blue"),
-                gold: this.bets.filter(bet => bet.color === "gold"),
+                green: this.filterByColor("green"),
+                blue: this.filterByColor("blue"),
+                gold: this.filterByColor("gold"),
             }
         },
         groupedBetSums() {
             return {
-                green: this.groupedBets.green.reduce((sum, bet) => sum + bet.value, 0),
-                blue: this.groupedBets.blue.reduce((sum, bet) => sum + bet.value, 0),
-                gold: this.groupedBets.gold.reduce((sum, bet) => sum + bet.value, 0),
+                green: this.getSumByGroup(this.groupedBets.green),
+                blue: this.getSumByGroup(this.groupedBets.blue),
+                gold: this.getSumByGroup(this.groupedBets.gold),
             }
+        },
+    },
+    methods: {
+        getSumByGroup(group) {
+            return group.reduce((sum, bet) => sum + bet.value, 0)
+        },
+        filterByColor(color) {
+            return this.bets.filter(bet => bet.color === color)
         },
     },
     mounted() {
         this.$socket.client.emit("getRouletteParticipants");
     },
-    sockets: {
-        startDouble() {
-            this.bets = [];
-        },
-        newRouletteBet(data) {
-            this.bets = [...data];
-        },
-        currentParticipants(data) {
-            this.bets = [...data];
-        }
-    }
 }
 </script>
 

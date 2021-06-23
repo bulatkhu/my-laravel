@@ -4,7 +4,7 @@
             <div class="login-info__avatar">
                 <img :src="user.avatar" alt="avatar">
             </div>
-            <span>name {{user.username}}</span>
+            <span class="login-info__name">{{user.username}}</span>
         </div>
 
         <a v-if="!user" href="/api/auth/steam" @click="onClickLogin()">Login through steam</a>
@@ -41,6 +41,30 @@ export default {
     justify-content: space-between;
     /*flex: 1;*/
     /*min-height: 100vh;*/
+}
+
+.login-info {
+    display: flex;
+    align-items: center;
+
+    &__name {
+        margin-left: 10px;
+        white-space: nowrap;
+    }
+
+    &__avatar {
+        width: 60px;
+        min-width: 60px;
+        height: 60px;
+        min-height: 60px;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    margin-right: 30px;
 }
 
 .login-avatar {

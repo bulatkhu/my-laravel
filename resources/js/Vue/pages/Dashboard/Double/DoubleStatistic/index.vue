@@ -4,11 +4,11 @@
             <p class="statistic-col__item">Round statics</p>
         </div>
         <div class="statistic-col">
-            <p class="statistic-col__item">participate in <span class="amount">121</span></p>
+            <p class="statistic-col__item">participate in <span class="amount">{{ betsSum }}$</span></p>
         </div>
         <div class="statistic-col">
-            <p class="statistic-col__item">Participants <span>213</span></p>
-            <p class="statistic-col__item">Skins <span>12</span></p>
+            <p class="statistic-col__item">Participants <span>{{ uniqueParticipants }}</span></p>
+            <p class="statistic-col__item">Skins <span>{{ bets.length }}</span></p>
         </div>
 
     </div>
@@ -16,7 +16,20 @@
 
 <script>
 export default {
-
+    props: ["bets"],
+    computed: {
+        uniqueParticipants() {
+            const uniqueBets = [];
+            this.bets.forEach((bet) => {
+                if (uniqueBets.find(uBet => uBet.user.id === bet.user.id)) return;
+                uniqueBets.push(bet);
+            })
+            return uniqueBets.length;
+        },
+        betsSum() {
+            return this.bets.reduce((sum, bet) => sum + bet.value, 0)
+        }
+    }
 }
 </script>
 

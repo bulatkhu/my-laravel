@@ -6,10 +6,10 @@
         </div>
 
         <div class="double-content double-statistic">
-            <DoubleStatistic />
+            <DoubleStatistic :bets="bets" />
         </div>
 
-        <DoubleParticipants />
+        <DoubleParticipants :bets="bets" />
     </div>
 </template>
 
@@ -26,6 +26,11 @@ export default {
         DoubleStatistic,
         DoubleParticipants
     },
+    data() {
+        return {
+            bets: [],
+        }
+    },
     sockets: {
         newBetError({ message }) {
             this.$notify({ type: "info", text: message })
@@ -33,6 +38,15 @@ export default {
         newBetSuccess() {
             this.$notify({ type: "success", text: "You have bet" })
         },
+        startDouble() {
+            this.bets = [];
+        },
+        newRouletteBet(data) {
+            this.bets = [...data];
+        },
+        currentParticipants(data) {
+            this.bets = [...data];
+        }
     },
     mounted() {
         this.$socket.client.emit("getLastDoubleBet");
