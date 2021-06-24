@@ -37,6 +37,7 @@ Route::group(["prefix" => "/bot"], function() {
     Route::group(["prefix" => "/roulette"], function() {
         Route::get("/state", [RouletteController::class, "getBets"]);
         Route::get("/bets", [RouletteController::class, "getAllCurrentBets"]);
+        Route::patch("/change", [RouletteController::class, "changeBet"]);
         Route::post("/store", [RouletteController::class, "createBet"]);
         Route::post("/newBet", [RouletteController::class, "newBet"])->middleware("jwt.verify");
     });

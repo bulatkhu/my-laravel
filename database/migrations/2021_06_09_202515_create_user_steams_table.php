@@ -20,6 +20,7 @@ class CreateUserSteamsTable extends Migration
             $table->string('avatar');
             $table->string('steamid');
             $table->string('trade_link')->nullable()->default(null);
+            $table->bigInteger('balance')->default(100);
         });
     }
 

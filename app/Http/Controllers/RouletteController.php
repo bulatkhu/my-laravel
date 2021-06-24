@@ -10,12 +10,44 @@ use Illuminate\Http\Request;
 class RouletteController extends Controller
 {
     protected $table = "roulette";
-    //
+
+    public function changeBet(Request $request) {
+        Roulette::where("id", $request->id)
+            ->update([
+                "winnerColor" => $request->winnerColor,
+                "winnerId" => $request->winnerId,
+            ]);
+
+        $bets = Roulette::find($request->id)->bets;
+        $participants = array();
+
+        foreach ($bets as $bet) {
+            $participant = UserSteam::find($bet->user_id);
+            array_push($participants, $participant);
+            $winCount = 0;
+
+            if ($bet->color === $request->winnerColor) {
+                if ($bet->color === "green" || $bet->color === "blue") {
+                    $winCount = $bet->value * 2;
+                } else {
+                    $winCount = $bet->value * 14;
+                }
+            }
+
+            $participant->update([
+                "balance" => $participant->balance + $winCount
+            ]);
+        }
+
+        return [
+            "bets" => $bets,
+            "users" => $participants,
+        ];
+    }
+
     public function createBet(Request $request) {
         $newBet = [
             'endAt' => $request->endAt,
-            'winnerId' => $request->winnerId,
-            'winnerColor' => $request->winnerColor,
             'rollingAt' => $request->rollingAt,
             'startAt' => $request->startAt,
         ];
@@ -26,6 +58,10 @@ class RouletteController extends Controller
 
     public function getBets() {
         return Roulette::latest()->take(100)->get();
+    }
+
+    public function roundEnd() {
+
     }
 
     public function getAllCurrentBets() {
@@ -50,11 +86,24 @@ class RouletteController extends Controller
         ]);
 
         $rouletteRound = Roulette::latest()->first();
+        $currentTime = date("c");
 
-        if (date("c") < $rouletteRound->endAt) {
+        $canBet =
+            $rouletteRound->startAt < $currentTime &&
+            $currentTime < $rouletteRound->rollingAt;
+
+        if (!$canBet) {
             return response(
                 [
                     "message" => "round ended"
+                ], 400
+            );
+        }
+
+        if ($user->balance - $request->value < 0) {
+            return response(
+                [
+                    "message" => "you do not have enough money"
                 ], 400
             );
         }
@@ -79,7 +128,12 @@ class RouletteController extends Controller
                 array_push($newAllBets, $betWithUser);
             }
 
-            $updatedBet->user = $user;
+            $userData = UserSteam::find($user->id);
+            $userData->update([
+                "balance" => $userData->balance - $request->value,
+            ]);
+
+            $updatedBet->user = $userData;
             $updatedBet->newItems = $newAllBets;
 
             return response(
@@ -97,7 +151,13 @@ class RouletteController extends Controller
         ]);
 
         $rouletteBet->save();
-        $rouletteBet->user = $user;
+
+        $userData = UserSteam::find($user->id);
+        $userData->update([
+            "balance" => $userData->balance - $request->value,
+        ]);
+
+        $rouletteBet->user = $userData;
 
         return response(
             $rouletteBet,

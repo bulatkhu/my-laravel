@@ -29,6 +29,8 @@
 
 <script>
 
+import store from '../../../../../store'
+
 export default {
     data() {
         return {
@@ -88,7 +90,7 @@ export default {
             this.$store.dispatch("double/setStatus", "bettingTime");
             this.setBettingTime(data.bettingTime)
         },
-        endDouble({ data }) {
+        endDouble(data) {
             const timeLeft = Date.parse(data.endAt) - Date.parse(data.rollingAt);
             this.$store.dispatch("double/setStatus", "spinning");
 
@@ -104,6 +106,8 @@ export default {
                 setTimeout(() => {
                     this.gameOver = false
                 }, 1000)
+
+                store.dispatch("fetchUser");
             }, timeLeft)
         },
         lastDoubleBet(data) {

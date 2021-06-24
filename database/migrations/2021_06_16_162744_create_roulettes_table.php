@@ -18,8 +18,8 @@ class CreateRoulettesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string("endAt");
-            $table->string("winnerColor");
-            $table->bigInteger("winnerId");
+            $table->string("winnerColor")->nullable()->default(null);
+            $table->bigInteger("winnerId")->nullable()->default(null);
             $table->string("rollingAt");
             $table->string("startAt");
         });

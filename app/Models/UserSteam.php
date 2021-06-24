@@ -22,6 +22,7 @@ class UserSteam extends Model implements JWTSubject
         'avatar',
         'steamid',
         'trade_link',
+        'balance',
     ];
 
     public function getJWTIdentifier()

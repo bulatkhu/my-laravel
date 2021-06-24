@@ -18,6 +18,7 @@ import DoubleSlider from './DoubleSlider';
 import DoubleHistory from './DoubleHistory';
 import DoubleStatistic from './DoubleStatistic';
 import DoubleParticipants from './DoubleParticipants';
+import store from '../../../../store'
 
 export default {
     components: {
@@ -37,6 +38,7 @@ export default {
         },
         newBetSuccess() {
             this.$notify({ type: "success", text: "You have bet" })
+            store.dispatch("fetchUser");
         },
         startDouble() {
             this.bets = [];

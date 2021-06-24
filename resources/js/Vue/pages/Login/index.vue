@@ -5,6 +5,7 @@
                 <img :src="user.avatar" alt="avatar">
             </div>
             <span class="login-info__name">{{user.username}}</span>
+            <span class="login-info__balance">{{user.balance}}$</span>
         </div>
 
         <a v-if="!user" href="/api/auth/steam" @click="onClickLogin()">Login through steam</a>
@@ -48,7 +49,7 @@ export default {
     align-items: center;
 
     &__name {
-        margin-left: 10px;
+        margin: 0 10px;
         white-space: nowrap;
     }
 
