@@ -3,6 +3,7 @@ import Login from '../Vue/pages/Login'
 import AuthCallback from '../Vue/pages/AuthCallback'
 import Dashboard from '../Vue/pages/Dashboard'
 import Double from '../Vue/pages/Dashboard/Double'
+import Classic from '../Vue/pages/Dashboard/Classic'
 
 const Schema = new VueRouter({
     mode: 'history',
@@ -14,6 +15,11 @@ const Schema = new VueRouter({
                 {
                     path: "/double",
                     component: Double,
+                    meta: { roles: [], private: false },
+                },
+                {
+                    path: "/classic",
+                    component: Classic,
                     meta: { roles: [], private: false },
                 }
             ]

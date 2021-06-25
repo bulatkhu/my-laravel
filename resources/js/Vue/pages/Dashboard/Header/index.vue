@@ -3,6 +3,7 @@
         <nav class="header-nav">
             <router-link exact-active-class="active" class="header-nav__link" to="/">Crash</router-link>
             <router-link exact-active-class="active" class="header-nav__link" to="/double">Double</router-link>
+            <router-link exact-active-class="active" class="header-nav__link" to="/classic">Classic</router-link>
 <!--            <router-link class="header-nav__link" to="/">Crash</router-link>-->
 <!--            <router-link class="header-nav__link" to="/">Crash</router-link>-->
         </nav>
