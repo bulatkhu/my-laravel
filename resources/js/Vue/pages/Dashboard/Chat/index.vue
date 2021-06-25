@@ -1,20 +1,31 @@
 <template>
-    <div class="chat-container">
-        <div ref="chatBlock" class="chat-block">
-            <div class="chat-block__message" v-for="(msg) in messages" :key="msg.id">
+    <div class="chat">
+        <div :class="['chat-container', $store.state.chatHide && 'hidden']">
+            <div class="chat-container__wrapper">
+                <div ref="chatBlock" class="chat-block">
+                    <div class="chat-block__message" v-for="(msg) in messages" :key="msg.id">
 
-                <div class="chat-block__img">
-                    <img :src="msg.user.avatar" alt="avatar">
+                        <div class="chat-block__top">
+                            <div class="chat-block__img">
+                                <img :src="msg.user.avatar" alt="avatar">
+                            </div>
+                            <div class="chat-block__user">
+                                <span> {{ msg.user.username }} </span>
+                                <span> {{ msg.message }} </span>
+                            </div>
+                        </div>
+
+                        <span class="chat-block__time">{{ msg.time }}</span>
+                    </div>
+
                 </div>
-                <span> {{ msg.message }} </span>
+
+                <div class="chat-tools"><label>
+                    <input name="message" v-model="chatMessage" type="text">
+                </label>
+                    <button @click="sendMessage()">Add message</button>
+                </div>
             </div>
-
-        </div>
-
-        <div class="chat-tools"><label>
-            <input name="message" v-model="chatMessage" type="text">
-        </label>
-            <button @click="sendMessage()">Add message</button>
         </div>
     </div>
 </template>
@@ -70,7 +81,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@/_variables";
+@import "resources/assets/sass/_variables";
+
+.chat {
+    height: 100%;
+    position: relative;
+
+    &__button {
+        position: absolute;
+        right: 0;
+        z-index: 1;
+    }
+}
 
 .chat-container {
     width: 500px;
@@ -82,28 +104,62 @@ export default {
 
     display: flex;
     align-items: stretch;
+    justify-content: stretch;
     flex-direction: column;
+
+    position: relative;
+    height: 100%;
+
+    transition: all .6s;
+
+    &.hidden {
+        left: 100%;
+    }
+
+    &__wrapper {
+        height: 100%;
+    }
 }
 
-.chat-tools {}
+.chat-tools {
+    position: absolute;
+    bottom: 0;
+}
 
 .chat-block {
     //max-height: 330px;
     overflow: auto;
-    height: 90%;
+    height: 95%;
+    position: absolute;
+    width: 100%;
+    max-width: 90%;
+    max-height: 90%;
+
+    &__time {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    &__user {
+        flex-direction: column;
+        display: flex;
+    }
 
     &__message {
-        display: flex;
-        align-items: center;
-
         &:not(:last-child) {
             margin-bottom: 10px;
         }
     }
 
+    &__top {
+        display: flex;
+        align-items: center;
+    }
+
     &__img {
         width: 40px;
         height: 40px;
+        margin-bottom: 5px;
         margin-right: 10px;
 
         img {

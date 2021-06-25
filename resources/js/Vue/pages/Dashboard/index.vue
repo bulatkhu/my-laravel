@@ -9,7 +9,10 @@
             <div class="main-header">
                 <Header/>
             </div>
-            <div class="main-content">
+            <div :class="['main-content', $store.state.chatHide && 'chat-hidden']">
+                <button class="main-content__chatBtn" @click="$store.state.chatHide = !$store.state.chatHide">hide
+                </button>
+
                 <div class="main-content__body">
                     <router-view />
                 </div>
@@ -93,9 +96,24 @@ export default {
     grid-template-columns: 1fr 376px;
     column-gap: 30px;
     height: 100%;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+
+    &__chatBtn {
+        z-index: 1;
+        right: 0;
+        position: absolute;
+        width: auto;
+    }
+
+    &.chat-hidden {
+        grid-template-columns: 1fr 0;
+    }
 
     &__aside {
-
+        position: relative;
+        overflow: hidden;
     }
 }
 

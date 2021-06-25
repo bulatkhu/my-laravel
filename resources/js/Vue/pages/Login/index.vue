@@ -11,6 +11,11 @@
         <a v-if="!user" href="/api/auth/steam" @click="onClickLogin()">Login through steam</a>
         <button @click="logout()" v-else>Logout</button>
 
+        <p class="login-online">
+            <span class="login-online__count">{{online}}</span>
+            <span class="login-online__label">online</span>
+        </p>
+
     </div>
 </template>
 
@@ -18,6 +23,11 @@
 import store from '../../../store'
 
 export default {
+    data() {
+        return {
+            online: 0
+        }
+    },
     methods: {
         onClickLogin() {
             console.log("login")
@@ -31,10 +41,16 @@ export default {
             return store.state.user;
         }
     },
+    sockets: {
+        online(data) {
+            this.online = data;
+        }
+    }
 }
 </script>
 
 <style scoped lang="scss">
+@import "resources/assets/sass/_variables";
 
 .login-container {
     display: flex;
@@ -66,6 +82,22 @@ export default {
     }
 
     margin-right: 30px;
+}
+
+.login-online {
+    text-align: center;
+    margin: 0 10px;
+    span {
+        display: block;
+    }
+
+    &__count {
+        color: $main-green;
+    }
+
+    &__label {
+
+    }
 }
 
 .login-avatar {

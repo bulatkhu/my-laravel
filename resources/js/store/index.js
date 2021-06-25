@@ -5,7 +5,7 @@ import axios from 'axios'
 // import mainModule from './modules/main'
 // import user from './modules/user'
 // import inventory from './modules/inventory'
-import chatModule from './modules/chat'
+// import chatModule from './modules/chat'
 import doubleModule from './modules/double'
 
 Vue.use(Vuex)
@@ -31,6 +31,7 @@ const store = new Vuex.Store({
     state: {
         authorized: false,
         user: null,
+        chatHide: false,
     },
 
     actions: {
@@ -53,7 +54,6 @@ const store = new Vuex.Store({
     modules: {
         // main: mainModule,
         // user,
-        chat: chatModule,
         double: doubleModule,
         // inventory: inventory,
     }
