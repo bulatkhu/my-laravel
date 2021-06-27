@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const path = require('path');
+require('laravel-mix-svg-vue');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,19 +17,31 @@ mix
     .disableNotifications()
     .disableSuccessNotifications()
     .js('resources/js/app.js', 'public/js')
+    .svgVue(
+        {
+            // svgPath: 'resources/svg',
+            svgPath: 'resources/assets/images/svg-icons',
+            extract: false,
+            svgoSettings: [
+                { removeTitle: true },
+                { removeViewBox: false },
+                { removeDimensions: true }
+            ]
+        }
+    )
     .webpackConfig({
         module: {
             rules: [
-                {
-                    test: /(\.(png|jpe?g|gif|webp)$|^((?!font).)*\.svg$)/,
-                    loaders: {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[path][name].[ext]?[hash]',
-                            context: 'resources/assets',
-                        }
-                    },
-                },
+                // {
+                //     test: /(\.(png|jpe?g|gif|webp)$|^((?!font).)*\.svg$)/,
+                //     loaders: {
+                //         loader: 'file-loader',
+                //         options: {
+                //             name: '[path][name].[ext]?[hash]',
+                //             context: 'resources/assets',
+                //         }
+                //     },
+                // },
                 {
                     enforce: 'pre',
                     exclude: /node_modules/,

@@ -71,7 +71,9 @@ Route::group([
     });
 });
 
-
+Route::group(['prefix' => 'prices'], function() {
+    Route::get('/withdraws', []);
+});
 //Route::group([
 //    'middleware' => 'api',
 //    'prefix' => 'auth'

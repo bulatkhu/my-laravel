@@ -1,41 +1,14 @@
 <template>
     <li :class="['double-item', this.color].join(' ')">
-        {{index}}
-<!--        <img :src="betIcon" alt="">-->
+        <svg-vue :icon="`bet-icons/bet-${this.color}`" />
     </li>
 </template>
 
 <script>
-// import blueBet from "@img/svg-icons/bet-icons/betBlue.svg";
-// import greenBet from "@img/svg-icons/bet-icons/betBlue.svg";
-// import goldBet from "@img/svg-icons/bet-icons/betBlue.svg";
-
-// console.log("blue bet", blueBet);
 export default {
     props: {
         color: String,
         index: Number,
-    },
-    data() {
-        let betIcon = this.asset("/images/betBlue.svg")
-        // switch (this.color) {
-        //     case "blue": {
-        //         betIcon = "/public/images/svg-icons/bet-icons/betBlue.svg"
-        //         break;
-        //     }
-        //     case "green": {
-        //         betIcon = "/public/images/svg-icons/bet-icons/betBlue.svg"
-        //         break;
-        //     }
-        //     case "gold": {
-        //         betIcon = "/public/images/svg-icons/bet-icons/betBlue.svg"
-        //         break;
-        //     }
-        // }
-
-        return {
-            betIcon
-        }
     },
 }
 </script>
@@ -53,21 +26,23 @@ export default {
 
     padding: 2px 5px;
 
-    //display: flex;
-    //align-items: center;
-    //justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    img {
+    svg {
         width: 100%;
         height: 100%;
     }
 
     &.blue {
         background-color: $coin-main-blue;
+        fill: #fff;
     }
 
     &.green {
         background-color: $main-green;
+        fill: #fff;
     }
 
     &.gold {

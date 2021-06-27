@@ -10,6 +10,7 @@ import SocketIO from 'socket.io-client'
 import VueSocketIOExt from 'vue-socket.io-extended';
 import store from './store';
 import router from './router/Schema';
+import SvgVue from 'svg-vue';
 
 console.log("process", process.env.APP_ENV);
 const { protocol, hostname } = window.location;
@@ -30,17 +31,18 @@ axios.interceptors.request.use(config => {
 window.Vue = Vue;
 Vue.mixin({
     methods: {
-        asset(path) {
-            const base_path = window._asset || '';
-            return base_path + path;
-        }
+        asset: (path) => window._asset || '' + path
     }
 });
+
+Vue.use(SvgVue);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 Vue.use(VueSocketIOExt, socket);
 Vue.use(VueNotifications);
+
+Vue.component("dashboard", require("./Vue/pages/Dashboard"));
 
 new Vue({
     router,

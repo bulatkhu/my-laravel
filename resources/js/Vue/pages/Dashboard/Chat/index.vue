@@ -20,7 +20,8 @@
 
                 </div>
 
-                <div class="chat-tools"><label>
+                <div class="chat-tools">
+                <label>
                     <input name="message" v-model="chatMessage" type="text">
                 </label>
                     <button @click="sendMessage()">Add message</button>

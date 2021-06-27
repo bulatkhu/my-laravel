@@ -14,5 +14,9 @@
             <app></app>
         </div>
     </body>
+    <script>
+        window._asset = '{{ asset('') }}';
+    </script>
     <script src="{{ mix("js/app.js") }}"></script>
+{{--    <script src="{{ mix('js/svg.js') }}"></script>--}}
 </html>

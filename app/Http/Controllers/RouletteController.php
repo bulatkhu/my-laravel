@@ -18,10 +18,10 @@ class RouletteController extends Controller
                 "winnerId" => $request->winnerId,
             ]);
 
-        $bets = Roulette::find($request->id)->bets;
+        $rouletteRound = Roulette::find($request->id);
         $participants = array();
 
-        foreach ($bets as $bet) {
+        foreach ($rouletteRound->bets as $bet) {
             $participant = UserSteam::find($bet->user_id);
             array_push($participants, $participant);
             $winCount = 0;
@@ -39,10 +39,7 @@ class RouletteController extends Controller
             ]);
         }
 
-        return [
-            "bets" => $bets,
-            "users" => $participants,
-        ];
+        return $rouletteRound;
     }
 
     public function createBet(Request $request) {

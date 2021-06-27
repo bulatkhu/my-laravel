@@ -90,7 +90,7 @@ export default {
             this.$store.dispatch("double/setStatus", "bettingTime");
             this.setBettingTime(data.bettingTime)
         },
-        endDouble(data) {
+        endDouble({ data }) {
             const timeLeft = Date.parse(data.endAt) - Date.parse(data.rollingAt);
             this.$store.dispatch("double/setStatus", "spinning");
 

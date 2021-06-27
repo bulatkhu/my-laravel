@@ -2,10 +2,7 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 
 import axios from 'axios'
-// import mainModule from './modules/main'
-// import user from './modules/user'
-// import inventory from './modules/inventory'
-// import chatModule from './modules/chat'
+import classicModule from './modules/classic'
 import doubleModule from './modules/double'
 
 Vue.use(Vuex)
@@ -52,10 +49,8 @@ const store = new Vuex.Store({
     },
     mutations,
     modules: {
-        // main: mainModule,
-        // user,
+        classic: classicModule,
         double: doubleModule,
-        // inventory: inventory,
     }
 })
 
